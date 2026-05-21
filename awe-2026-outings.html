@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AWE 2026 — After-Hours Adventures</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --parchment: #FDF6E8;
+  --parchment-dark: #F0E6CC;
+  --ink: #2D2416;
+  --ink-light: #6B5B3E;
+  --moss: #4A6741;
+  --moss-light: #E8F0E6;
+  --berry: #7B3B6E;
+  --berry-light: #F2E8F0;
+  --copper: #B5622A;
+  --copper-light: #F7EDE4;
+  --gold: #C49A35;
+  --gold-light: #FBF3DC;
+  --midnight: #1E2A3A;
+  --rule: rgba(45,36,22,0.12);
+  --rule-strong: rgba(45,36,22,0.25);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--parchment);
+  color: var(--ink);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── DECORATIVE SVG PATTERNS ── */
+.deco-stars {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  background: var(--midnight);
+  overflow: hidden;
+  padding: 100px 40px 80px;
+  text-align: center;
+}
+
+.hero-sky {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 40%, #2A3A5C 0%, #0E1824 60%);
+}
+
+/* Twinkling stars */
+.stars-layer {
+  position: absolute; inset: 0;
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  width: 2px; height: 2px;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle var(--dur, 3s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+  opacity: var(--base-opacity, 0.7);
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: var(--base-opacity, 0.7); transform: scale(1); }
+  50% { opacity: 0.1; transform: scale(0.5); }
+}
+
+/* Floating lanterns */
+.lanterns {
+  position: absolute; inset: 0;
+  pointer-events: none;
+}
+
+.lantern {
+  position: absolute;
+  width: 14px; height: 18px;
+  border-radius: 3px 3px 5px 5px;
+  opacity: 0.6;
+  animation: float-up var(--dur, 8s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+@keyframes float-up {
+  0% { transform: translateY(0) rotate(-3deg); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.3; }
+  100% { transform: translateY(-120px) rotate(3deg); opacity: 0; }
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.hero-scroll {
+  display: inline-block;
+  background: rgba(196,154,53,0.15);
+  border: 1px solid rgba(196,154,53,0.4);
+  border-radius: 40px;
+  padding: 6px 20px;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 28px;
+  font-family: 'Lora', serif;
+  font-style: italic;
+}
+
+.hero h1 {
+  font-family: 'Uncial Antiqua', cursive;
+  font-size: clamp(36px, 7vw, 68px);
+  color: var(--parchment);
+  line-height: 1.15;
+  margin-bottom: 16px;
+  text-shadow: 0 0 40px rgba(196,154,53,0.3);
+}
+
+.hero-subtitle {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 17px;
+  color: rgba(253,246,232,0.65);
+  margin-bottom: 48px;
+}
+
+/* Moon illustration */
+.moon {
+  position: absolute;
+  top: 30px; right: 80px;
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%, #FBF3DC, #E8C96A);
+  box-shadow: 0 0 30px rgba(232,201,106,0.4), 0 0 60px rgba(232,201,106,0.15);
+  opacity: 0.8;
+}
+
+/* ── WAVING BANNER ── */
+.banner-strip {
+  background: var(--moss);
+  padding: 12px 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.banner-inner {
+  display: flex;
+  gap: 0;
+  animation: scroll-banner 20s linear infinite;
+  white-space: nowrap;
+}
+
+@keyframes scroll-banner {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.banner-item {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: rgba(232,240,230,0.85);
+  padding: 0 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.banner-item::after {
+  content: '✦';
+  font-size: 8px;
+  color: var(--gold);
+}
+
+/* ── SECTION WRAPPER ── */
+.section-wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* ── INTRO ── */
+.intro {
+  text-align: center;
+  padding: 72px 40px 56px;
+  max-width: 680px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.intro::before {
+  content: '🌿';
+  font-size: 28px;
+  display: block;
+  margin-bottom: 16px;
+  animation: sway 4s ease-in-out infinite;
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+
+.intro-title {
+  font-family: 'Uncial Antiqua', cursive;
+  font-size: clamp(22px, 3vw, 30px);
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+
+.intro p {
+  font-family: 'Lora', serif;
+  font-size: 16px;
+  color: var(--ink-light);
+  line-height: 1.85;
+}
+
+/* ── TIMELINE ── */
+.timeline-section {
+  padding: 0 40px 64px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.timeline-label {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-light);
+  text-align: center;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.timeline-label::before, .timeline-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
+.timeline-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1.5px solid var(--rule-strong);
+  border-radius: 12px;
+  overflow: hidden;
+  background: white;
+}
+
+.tl-item {
+  padding: 24px 18px;
+  border-right: 1px solid var(--rule);
+  text-align: center;
+  position: relative;
+}
+
+.tl-item:last-child { border-right: none; }
+
+.tl-icon {
+  font-size: 26px;
+  display: block;
+  margin-bottom: 10px;
+  line-height: 1;
+}
+
+.tl-date {
+  font-family: 'Uncial Antiqua', cursive;
+  font-size: 18px;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+
+.tl-day {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: 10px;
+}
+
+.tl-event {
+  font-family: 'Lora', serif;
+  font-size: 13px;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.tl-sub {
+  font-size: 11px;
+  color: var(--ink-light);
+  font-style: italic;
+  margin-top: 3px;
+}
+
+.tl-item.has-event { background: var(--parchment); }
+
+/* ── EVENTS ── */
+.events {
+  padding: 0 40px 80px;
+  max-width: 980px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 72px;
+}
+
+.event-section-label {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-light);
+  text-align: center;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.event-section-label::before, .event-section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
+/* Event card */
+.event-card {
+  background: white;
+  border: 1.5px solid var(--rule-strong);
+  border-radius: 16px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  box-shadow: 0 4px 24px rgba(45,36,22,0.07), 0 1px 3px rgba(45,36,22,0.05);
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  position: relative;
+}
+
+.event-card.visible { opacity: 1; transform: translateY(0); }
+.event-card.reverse { direction: rtl; }
+.event-card.reverse > * { direction: ltr; }
+
+/* Decorative corner flourish */
+.event-card::before {
+  content: var(--flourish, '✦');
+  position: absolute;
+  font-size: 11px;
+  color: var(--gold);
+  opacity: 0.5;
+  top: 16px; right: 16px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.event-img-wrap {
+  position: relative;
+  overflow: hidden;
+  min-height: 400px;
+}
+
+.event-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s ease;
+}
+
+.event-card:hover .event-img-wrap img {
+  transform: scale(1.05);
+}
+
+.img-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg, transparent 40%, rgba(30,20,10,0.45) 100%);
+}
+
+.night-tag {
+  position: absolute;
+  top: 18px; left: 18px;
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 12px;
+  padding: 5px 14px;
+  border-radius: 40px;
+  color: white;
+  backdrop-filter: blur(4px);
+}
+
+.night-tag.n1 { background: rgba(101,60,30,0.75); border: 1px solid rgba(255,255,255,0.2); }
+.night-tag.n2 { background: rgba(30,42,58,0.75); border: 1px solid rgba(255,255,255,0.2); }
+.night-tag.n3 { background: rgba(75,30,75,0.75); border: 1px solid rgba(255,255,255,0.2); }
+
+.event-body {
+  padding: 44px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.event-number {
+  font-family: 'Uncial Antiqua', cursive;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--ink-light);
+  margin-bottom: 8px;
+  opacity: 0.7;
+}
+
+.event-name {
+  font-family: 'Uncial Antiqua', cursive;
+  font-size: clamp(22px, 2.5vw, 28px);
+  line-height: 1.25;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.event-flavor {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--ink-light);
+  margin-bottom: 24px;
+}
+
+/* Details grid */
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 20px;
+  margin-bottom: 24px;
+}
+
+.detail-block {
+  border-top: 1px dashed var(--rule-strong);
+  padding-top: 10px;
+}
+
+.det-key {
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.det-val {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+.det-sub {
+  font-size: 12px;
+  color: var(--ink-light);
+  margin-top: 2px;
+}
+
+.price-n1 { color: var(--copper); }
+.price-n2 { color: var(--moss); }
+.price-n3 { color: var(--berry); }
+
+/* Includes */
+.includes {
+  list-style: none;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.includes li {
+  font-size: 13px;
+  color: var(--ink-light);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.5;
+}
+
+.includes li::before {
+  content: '🌿';
+  font-size: 12px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Coupon box */
+.coupon-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--gold-light);
+  border: 1.5px dashed var(--gold);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+}
+
+.coupon-code {
+  font-family: 'Lora', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.coupon-text {
+  font-size: 12.5px;
+  color: #8A6A10;
+  line-height: 1.5;
+}
+
+/* Pricing table (escape room) */
+.pricing-table {
+  background: var(--berry-light);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+}
+
+.pricing-table-title {
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--berry);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.pricing-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.pricing-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #5A2050;
+}
+
+.pricing-row .p-label { font-family: 'Lora', serif; font-style: italic; }
+.pricing-row .p-val { font-weight: 600; }
+
+/* Booking suggestion */
+.booking-note {
+  background: var(--moss-light);
+  border-radius: 10px;
+  border-left: 3px solid var(--moss);
+  padding: 12px 16px;
+  margin-bottom: 22px;
+  font-size: 13px;
+  color: #2F4A2A;
+  line-height: 1.6;
+}
+
+.booking-note strong { font-weight: 600; }
+
+/* CTA button */
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 11px 22px;
+  border-radius: 40px;
+  border: 1.5px solid var(--ink);
+  color: var(--ink);
+  background: transparent;
+  transition: all 0.25s ease;
+  align-self: flex-start;
+}
+
+.cta-btn:hover {
+  background: var(--ink);
+  color: var(--parchment);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(45,36,22,0.15);
+}
+
+/* ── STRAGGLER CTA ── */
+.straggler {
+  background: var(--midnight);
+  position: relative;
+  overflow: hidden;
+  padding: 80px 40px;
+  text-align: center;
+}
+
+.straggler-inner { position: relative; z-index: 2; max-width: 560px; margin: 0 auto; }
+
+.straggler-sky {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 80%, #2A3A5C 0%, #0E1824 70%);
+}
+
+.straggler-moon {
+  position: absolute;
+  top: 24px; left: 50%;
+  transform: translateX(-50%);
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%, #FBF3DC, #E8C96A);
+  box-shadow: 0 0 20px rgba(232,201,106,0.35);
+  opacity: 0.7;
+}
+
+.straggler h2 {
+  font-family: 'Uncial Antiqua', cursive;
+  font-size: clamp(26px, 4vw, 38px);
+  color: var(--parchment);
+  margin-bottom: 16px;
+  margin-top: 24px;
+  text-shadow: 0 0 30px rgba(196,154,53,0.2);
+}
+
+.straggler p {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: rgba(253,246,232,0.6);
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+
+.straggler-note {
+  font-size: 13px;
+  color: rgba(253,246,232,0.4);
+  margin-top: 20px;
+  font-style: italic;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--parchment-dark);
+  border-top: 1px solid var(--rule);
+  text-align: center;
+  padding: 28px 40px;
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-light);
+}
+
+footer span {
+  margin: 0 12px;
+  opacity: 0.5;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  .event-card { grid-template-columns: 1fr; }
+  .event-card.reverse { direction: ltr; }
+  .event-img-wrap { min-height: 240px; }
+  .event-body { padding: 28px 24px; }
+  .details-grid { grid-template-columns: 1fr; }
+  .timeline-grid { grid-template-columns: 1fr 1fr; }
+  .tl-item:nth-child(2) { border-right: none; }
+  .hero { padding: 70px 24px 60px; }
+  .moon { display: none; }
+  .events, .timeline-section { padding-left: 20px; padding-right: 20px; }
+  .intro { padding: 48px 24px 40px; }
+  .straggler { padding: 60px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<header class="hero">
+  <div class="hero-sky"></div>
+  <div class="moon"></div>
+
+  <!-- Stars -->
+  <div class="stars-layer" id="starsLayer"></div>
+
+  <!-- Lanterns -->
+  <div class="lanterns" id="lanternsLayer"></div>
+
+  <div class="hero-inner">
+    <div class="hero-scroll">✦ AWE USA 2026 · Long Beach, CA ✦</div>
+    <h1>After&nbsp;Hours<br>Adventures</h1>
+    <p class="hero-subtitle">Three evenings of mischief &amp; merriment for the AWE crew &nbsp;·&nbsp; June 15–17</p>
+  </div>
+</header>
+
+<!-- ── SCROLLING BANNER ── -->
+<div class="banner-strip">
+  <div class="banner-inner">
+    <span class="banner-item">🗡 Medieval Times · June 15</span>
+    <span class="banner-item">🪓 Axe Throwing · June 16</span>
+    <span class="banner-item">🧙 Escape Room · June 17</span>
+    <span class="banner-item">🌿 After conference hours</span>
+    <span class="banner-item">✦ Long Beach & Buena Park</span>
+    <span class="banner-item">🗡 Medieval Times · June 15</span>
+    <span class="banner-item">🪓 Axe Throwing · June 16</span>
+    <span class="banner-item">🧙 Escape Room · June 17</span>
+    <span class="banner-item">🌿 After conference hours</span>
+    <span class="banner-item">✦ Long Beach & Buena Park</span>
+  </div>
+</div>
+
+<!-- ── INTRO ── -->
+<section class="intro">
+  <div class="intro-title">A Little Something Extra</div>
+  <p>After each day at the Augmented World Expo, we've got three evening adventures lined up — one for each night of the conference. Take a look, find your team, and book together! All activities are open to any staff who want in.</p>
+</section>
+
+<!-- ── TIMELINE ── -->
+<section class="timeline-section">
+  <div class="timeline-label">The journey ahead</div>
+  <div class="timeline-grid">
+    <div class="tl-item has-event">
+      <span class="tl-icon">⚔️</span>
+      <div class="tl-date">Jun 15</div>
+      <div class="tl-day">Monday</div>
+      <div class="tl-event">Medieval Times</div>
+      <div class="tl-sub">7:00 PM · Buena Park</div>
+    </div>
+    <div class="tl-item has-event">
+      <span class="tl-icon">🪓</span>
+      <div class="tl-date">Jun 16</div>
+      <div class="tl-day">Tuesday</div>
+      <div class="tl-event">Axe Throwing</div>
+      <div class="tl-sub">From 6 PM · Downtown LB</div>
+    </div>
+    <div class="tl-item has-event">
+      <span class="tl-icon">🧙</span>
+      <div class="tl-date">Jun 17</div>
+      <div class="tl-day">Wednesday</div>
+      <div class="tl-event">Wizard Trials</div>
+      <div class="tl-sub">8:15 PM · Downtown LB</div>
+    </div>
+    <div class="tl-item">
+      <span class="tl-icon">🌅</span>
+      <div class="tl-date">Jun 18</div>
+      <div class="tl-day">Thursday</div>
+      <div class="tl-event">Last Conference Day</div>
+      <div class="tl-sub">Safe travels!</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EVENTS ── -->
+<section class="events">
+  <div class="event-section-label">Choose your adventures</div>
+
+  <!-- ── NIGHT 1: MEDIEVAL TIMES ── -->
+  <article class="event-card" style="--flourish: '⚔'">
+    <div class="event-img-wrap">
+      <img src="https://medt-refresh.imgix.net/wp-content/uploads/2023/12/25000756/250204_Shot06_Jousting_0093_Web-Compressed-scaled.jpg"
+           alt="Knights jousting at Medieval Times"
+           onerror="this.src='https://medt-refresh.imgix.net/wp-content/uploads/2020/03/29014350/castle-ca.jpg'">
+      <div class="img-overlay"></div>
+      <span class="night-tag n1">✦ Night One · Monday June 15</span>
+    </div>
+    <div class="event-body">
+      <div class="event-number">The First Night</div>
+      <h2 class="event-name">Medieval Times<br>Dinner &amp; Tournament</h2>
+      <p class="event-flavor">Knights, horses, goblets, and glory — a proper feast for a proper crew</p>
+
+      <div class="coupon-box">
+        <div class="coupon-code">15MT</div>
+        <div class="coupon-text">Use this code for <strong>15% off</strong> — drops from $77.95 to <strong>~$66.26</strong> per adult 🎉</div>
+      </div>
+
+      <div class="details-grid">
+        <div class="detail-block">
+          <div class="det-key">Showtime</div>
+          <div class="det-val">7:00 PM</div>
+          <div class="det-sub">~2 hour show</div>
+        </div>
+        <div class="detail-block">
+          <div class="det-key">Adult ticket</div>
+          <div class="det-val price-n1">~$66.26 / person</div>
+          <div class="det-sub">with code 15MT</div>
+        </div>
+        <div class="detail-block">
+          <div class="det-key">Children</div>
+          <div class="det-val">$47.95 / child</div>
+          <div class="det-sub">Ages 12 &amp; under</div>
+        </div>
+        <div class="detail-block">
+          <div class="det-key">Address</div>
+          <div class="det-val" style="font-size:13px">7662 Beach Blvd</div>
+          <div class="det-sub">Buena Park, CA · (714) 523-1100</div>
+        </div>
+      </div>
+
+      <ul class="includes">
+        <li>Two-hour live tournament with jousting &amp; sword fights</li>
+        <li>Four-course feast served tableside during the show</li>
+        <li>Pure Spanish horses &amp; trained falconry performance</li>
+        <li>Two rounds of non-alcoholic beverages included</li>
+      </ul>
+
+      <div class="booking-note">
+        📜 <strong>How to join:</strong> Book tickets with your team directly at the link below using discount code <strong>15MT</strong>. If your team isn't organizing a group, reach out to your event organizer — they may be able to add you to an existing booking.
+      </div>
+
+      <a href="https://purchase.medievaltimes.com/tickets" class="cta-btn" target="_blank">
+        Book tickets at medievaltimes.com ↗
+      </a>
+    </div>
+  </article>
+
+  <!-- ── NIGHT 2: AXE THROWING ── -->
+  <article class="event-card reverse" style="--flourish: '🪓'">
+    <div class="event-img-wrap">
+      <img src="https://badaxethrowing.com/wp-content/uploads/2024/07/bad-axe-throwing-image.jpg"
+           alt="Axe throwing at Bad Axe Throwing Long Beach"
+           onerror="this.style.background='#1E2A3A'">
+      <div class="img-overlay"></div>
+      <span class="night-tag n2">✦ Night Two · Tuesday June 16</span>
+    </div>
+    <div class="event-body">
+      <div class="event-number">The Second Night</div>
+      <h2 class="event-name">Bad Axe<br>Throwing</h2>
+      <p class="event-flavor">Expert coaches, private lanes, zero experience needed — just pure chaos energy</p>
+
+      <div class="details-grid">
+        <div class="detail-block">
+          <div class="det-key">Walk-in hours</div>
+          <div class="det-val">6:00 – 9:00 PM</div>
+          <div class="det-sub">Just show up!</div>
+        </div>
+        <div class="detail-block">
+          <div class="det-key">Walk-in price</div>
+          <div class="det-val price-n2">From $19.99 / person</div>
+          <div class="det-sub">30–60 min session</div>
+        </div>
+        <div class="detail-block">
+          <div class="det-key">Private booking</div>
+          <div class="det-val">From $39.99 / person</div>
+          <div class="det-sub">1.5 hrs · 4+ people</div>
+        </div>
+        <div class="detail-block">
+          <div class="det-key">Address</div>
+          <div class="det-val" style="font-size:13px">245 Pine Ave #290</div>
+          <div class="det-sub">Downtown Long Beach · (844) 818-0999</div>
+        </div>
+      </div>
+
+      <ul class="includes">
+        <li>Private lanes — just your crew, no strangers</li>
+        <li>Trained coaches &amp; all equipment provided</li>
+        <li>Add knife throwing +$5/pp · Big axe combo +$10/pp</li>
+        <li>Cashless venue — bring a card · Student &amp; military rates available</li>
+      </ul>
+
+      <div class="booking-note">
+        📜 <strong>How to join:</strong> Walk-ins are welcome on Tuesday evenings — no reservation needed! If you'd prefer a private booking for your team (1.5 hrs, 4+ people), book ahead through the website below.
+      </div>
+
+      <a href="https://badaxethrowing.com/locations/axe-throwing-long-beach/" class="cta-btn" target="_blank">
+        View location &amp; book ↗
+      </a>
+    </div>
+  </article>
+
+  <!-- ── NIGHT 3: ESCAPE ROOM ── -->
+  <article class="event-card" style="--flourish: '🌙'">
+    <div class="event-img-wrap">
+      <img src="https://paniqescaperoom.com/img/paniq/room-bg-wizard-trials-escape-room.webp"
+           alt="Wizard Trials escape room at PanIQ Long Beach"
+           onerror="this.style.background='#2A1A3A'">
+      <div class="img-overlay"></div>
+      <span class="night-tag n3">✦ Night Three · Wednesday June 17</span>
+    </div>
+    <div class="event-body">
+      <div class="event-number">The Third Night</div>
+      <h2 class="event-name">PanIQ Escape Room<br><em style="font-family:'Lora',serif; font-size:0.85em">Wizard Trials</em></h2>
+      <p class="event-flavor">Your master's cat has gone missing. You have one hour. No pressure.</p>
+
+      <div class="details-grid">
+        <div class="detail-block">
+          <div class="det-key">Time slot</div>
+          <div class="det-val">8:15 – 9:15 PM</div>
+          <div class="det-sub">60-minute game</div>
+        </div>
+        <div class="detail-block">
+          <div class="det-key">Group size</div>
+          <div class="det-val">2–9 players</div>
+          <div class="det-sub">Medium difficulty · Ages 8+</div>
+        </div>
+        <div class="detail-block">
+          <div class="det-key">Difficulty</div>
+          <div class="det-val">Medium 🔮</div>
+          <div class="det-sub">Accessible &amp; family-friendly</div>
+        </div>
+        <div class="detail-block">
+          <div class="det-key">Address</div>
+          <div class="det-val" style="font-size:13px">327 Pine Ave</div>
+          <div class="det-sub">Downtown Long Beach · (562) 544-6583</div>
+        </div>
+      </div>
+
+      <div class="pricing-table">
+        <div class="pricing-table-title">🧙 Pricing per person</div>
+        <div class="pricing-rows">
+          <div class="pricing-row"><span class="p-label">2 players</span><span class="p-val">$49.95 / person</span></div>
+          <div class="pricing-row"><span class="p-label">3–4 players</span><span class="p-val">$44.95 / person</span></div>
+          <div class="pricing-row"><span class="p-label">5–9 players</span><span class="p-val">$42.95 / person</span></div>
+        </div>
+      </div>
+
+      <div class="booking-note">
+        📜 <strong>How to join:</strong> Book ahead with your team — this room fills up fast and is fully booked on June 16, so we've moved it to June 17. If your team isn't interested, reach out to your event organizer to see about joining another group.
+      </div>
+
+      <a href="https://paniqescaperoom.com/long-beach/en/booking/escape-room/wizard-trials" class="cta-btn" target="_blank">
+        View room &amp; book ↗
+      </a>
+    </div>
+  </article>
+
+</section>
+
+<!-- ── STRAGGLER CTA ── -->
+<section class="straggler">
+  <div class="straggler-sky"></div>
+  <div class="straggler-moon"></div>
+  <div class="straggler-inner">
+    <h2>Flying solo?</h2>
+    <p>If your team isn't joining an outing and you don't want to miss out, reach out to your event organizer — they may be able to squeeze in a few extra adventurers.</p>
+    <p class="straggler-note">✦ No promises, but it's always worth asking ✦</p>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  AWE 2026 <span>·</span> Long Beach Convention Center <span>·</span> June 15–18 <span>·</span> After-Hours Adventures Guide
+</footer>
+
+<script>
+/* Generate twinkling stars */
+const starsLayer = document.getElementById('starsLayer');
+for (let i = 0; i < 80; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  s.style.cssText = `
+    left: ${Math.random()*100}%;
+    top: ${Math.random()*100}%;
+    width: ${Math.random() < 0.3 ? 3 : 2}px;
+    height: ${Math.random() < 0.3 ? 3 : 2}px;
+    --dur: ${2 + Math.random()*4}s;
+    --delay: ${Math.random()*4}s;
+    --base-opacity: ${0.4 + Math.random()*0.6};
+  `;
+  starsLayer.appendChild(s);
+}
+
+/* Generate floating lanterns */
+const colors = ['rgba(196,154,53,0.6)', 'rgba(180,100,80,0.5)', 'rgba(100,150,180,0.5)', 'rgba(160,100,180,0.45)'];
+const lanternsLayer = document.getElementById('lanternsLayer');
+for (let i = 0; i < 12; i++) {
+  const l = document.createElement('div');
+  l.className = 'lantern';
+  l.style.cssText = `
+    left: ${5 + Math.random()*90}%;
+    bottom: ${Math.random()*30}%;
+    background: ${colors[Math.floor(Math.random()*colors.length)]};
+    --dur: ${6 + Math.random()*8}s;
+    --delay: ${Math.random()*8}s;
+  `;
+  lanternsLayer.appendChild(l);
+}
+
+/* Scroll reveal */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.event-card').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
